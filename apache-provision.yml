@@ -1,0 +1,30 @@
+---
+- hosts: frontend
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: vagrant
+  become: true
+  tasks:
+  - name: Update Http to latest version
+    package:
+      name: httpd
+      state: present
+    notify: restart server
+  - name: Start httpd service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    notify: restart server
+  - name: Copy configuration file
+    copy:
+      src: ~/file1.txt
+      dest: /tmp/file5.txt
+    notify: restart server
+  handlers:
+    - name: restart server
+      command: 'shutdown -r -t sec 1'
+  
+
+
