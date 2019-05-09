@@ -1,0 +1,19 @@
+---
+- hosts: frontend
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: vagrant
+  become: true
+  tasks:
+  - name: Install Apache in centos
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_facts['os_family'] == "RedHat"
+    remote_user: pako
+  - name: Install Apache in Debian
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_facts['os_family'] == "Debian"

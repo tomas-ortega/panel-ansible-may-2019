@@ -1,0 +1,7 @@
+---
+- name: Install webservers
+  hosts: frontend
+  remote_user: vagrant
+  become: true
+  roles:
+    - role: geerlingguy.nginx

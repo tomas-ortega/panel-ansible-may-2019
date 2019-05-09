@@ -11,16 +11,17 @@
       name: httpd
       state: present
     notify: restart server
+  - name: Update apache config
+    template:
+      src: templates/httpd.conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+    when: ansible_facts['os_family'] == "Windows"
+    notify: restart server
   - name: Start httpd service
     service:
       name: httpd
       state: started
       enabled: yes
-    notify: restart server
-  - name: Copy configuration file
-    copy:
-      src: ~/file1.txt
-      dest: /tmp/file5.txt
     notify: restart server
   handlers:
     - name: restart server
